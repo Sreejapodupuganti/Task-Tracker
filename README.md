@@ -8,7 +8,7 @@ Task Tracker is a comprehensive and intuitive application designed to enhance pr
 - [Technologies Used](#technologies-used)  
 - [Setup and Installation](#setup-and-installation)  
 - [Usage](#usage)  
-- [Screenshots and GIFs](#screenshots-and-gifs)  
+- [Code](#Code)  
 - [Challenges and Solutions](#challenges-and-solutions)  
 - [Contributing](#contributing)  
 - [License](#license)
