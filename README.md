@@ -131,24 +131,154 @@ Task Tracker is a comprehensive and intuitive application designed to enhance pr
 
 ---
 
-## **Screenshots and GIFs**
+## **code**
 
-### **1. Dashboard**
-![Dashboard Screenshot](path/to/dashboard.png)
+### 1. **Calendar Integration**  
+This snippet integrates a calendar view, allowing users to view tasks by date.
 
-### **2. Task Creation**
-![Task Creation Screenshot](path/to/task-creation.png)
+#### Calendar Component:
+```jsx
+import React from 'react';
+import Calendar from 'react-calendar'; // Install with `npm install react-calendar`
+import 'react-calendar/dist/Calendar.css';
 
-### **3. Advanced Filtering**
-![Filtering Screenshot](path/to/filtering.png)
+function CalendarView({ tasks, onDateChange }) {
+  const taskDates = tasks.map((task) => new Date(task.dueDate).toDateString());
 
-### **4. Calendar View**
-![Calendar View Screenshot](path/to/calendar.png)
+  const tileContent = ({ date, view }) => {
+    if (view === 'month' && taskDates.includes(date.toDateString())) {
+      return <span className="task-indicator">•</span>;
+    }
+    return null;
+  };
 
-### **GIF: Interactive Features**
-![Interactive Features GIF](path/to/interactive-features.gif)
+  return (
+    <div className="calendar-view">
+      <Calendar 
+        onChange={onDateChange}
+        tileContent={tileContent}
+      />
+    </div>
+  );
+}
+
+export default CalendarView;
+```
+
+#### Usage:
+Import and use the `CalendarView` component in the `TaskList` or `App` component.
+```jsx
+import CalendarView from './CalendarView';
+
+function App() {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [tasks, setTasks] = useState([]);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  return (
+    <div>
+      <h1>Task Tracker with Calendar View</h1>
+      <CalendarView tasks={tasks} onDateChange={handleDateChange} />
+      {/* Pass selectedDate to TaskList for filtering */}
+    </div>
+  );
+}
+```
 
 ---
+
+### 2. **Advanced Filtering**  
+This snippet provides advanced filters for priority, status, and search, with real-time updates.
+
+#### Filtering Logic:
+```jsx
+function TaskFilters({ filters, setFilters }) {
+  const handleFilterChange = (key, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
+
+  return (
+    <div className="filters">
+      <select
+        value={filters.priority}
+        onChange={(e) => handleFilterChange('priority', e.target.value)}
+      >
+        <option value="all">All Priorities</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+      <select
+        value={filters.status}
+        onChange={(e) => handleFilterChange('status', e.target.value)}
+      >
+        <option value="all">All Tasks</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+      </select>
+      <input
+        type="text"
+        placeholder="Search tasks..."
+        value={filters.searchQuery}
+        onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
+      />
+    </div>
+  );
+}
+
+export default TaskFilters;
+```
+
+#### Usage:
+Include `TaskFilters` in your `TaskList` or `App` component.
+```jsx
+<TaskFilters filters={filters} setFilters={setFilters} />
+```
+
+---
+
+### 3. **Sorting**  
+This snippet adds sorting functionality for tasks by title, priority, due date, or creation date.
+
+#### Sorting Logic:
+```jsx
+function TaskSorter({ sortConfig, setSortConfig }) {
+  const handleSortChange = (key) => {
+    setSortConfig((prev) => ({
+      key,
+      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc',
+    }));
+  };
+
+  return (
+    <div className="sorter">
+      {['title', 'priority', 'dueDate', 'createdAt'].map((key) => (
+        <button
+          key={key}
+          onClick={() => handleSortChange(key)}
+          className={`sort-button ${sortConfig.key === key ? 'active' : ''}`}
+        >
+          {key.charAt(0).toUpperCase() + key.slice(1)}
+          {sortConfig.key === key && (
+            <span>{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export default TaskSorter;
+```
+
+#### Usage:
+Include `TaskSorter` in your `TaskList` or `App` component.
+```jsx
+<TaskSorter sortConfig={sortConfig} setSortConfig={setSortConfig} />
+```
 
 ## **Challenges and Solutions**
 
@@ -164,7 +294,7 @@ Task Tracker is a comprehensive and intuitive application designed to enhance pr
 - **Problem**: Complex filtering logic with multiple criteria.  
 - **Solution**: Used MongoDB's aggregation pipeline to handle advanced queries and optimize performance.
 
----
+
 
 ## **Contributing**
 
@@ -176,12 +306,8 @@ To contribute:
 4. Push to your branch (`git push origin feature-name`).  
 5. Open a pull request.
 
----
 
 ## **License**
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
----
-
-You can now copy this to your repository’s README.md file. Replace placeholders like `path/to/image` or `yourusername` with the actual values relevant to your project. Add real screenshots and GIFs to make it more visually appealing.
