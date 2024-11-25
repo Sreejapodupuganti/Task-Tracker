@@ -98,7 +98,7 @@ Task Tracker is a comprehensive and intuitive application designed to enhance pr
 
 5. Start the backend server:  
    ```bash
-   npm run dev
+   npm install react-calendar
    ```
 
 6. Start the frontend:  
