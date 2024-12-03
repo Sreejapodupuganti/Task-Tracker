@@ -306,6 +306,10 @@ To contribute:
 4. Push to your branch (`git push origin feature-name`).  
 5. Open a pull request.
 
+## **Credits**
+- This project is an extension of OCUFrontendWebDev repo's Task Tracker app.
+- I used the Chatgpt for implementing some changes in the code and the Documentation.
+
 
 ## **License**
 
